@@ -1,3 +1,4 @@
+import { PageProps } from '@/.next/types/app/layout';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -36,16 +37,15 @@ async function fetchRecipes(searchParams: {
   return res.json();
 }
 
-export default async function RecipesPage({
-  searchParams,
-}: {
-  searchParams: { query?: string; cuisine?: string; maxReadyTime?: string };
-}) {
+export default async function RecipesPage({searchParams}: PageProps) {
+  const resolvedSearchParams = await searchParams;
+  const {query, cuisine, maxReadyTime} = resolvedSearchParams || {};
+
   let recipes: Recipe[] = [];
   let error: string | null = null;
 
   try {
-    const data = await fetchRecipes(searchParams);
+    const data = await fetchRecipes({query, cuisine, maxReadyTime});
     recipes = data.results;
   } catch (err) {
     error = (err as Error).message;
