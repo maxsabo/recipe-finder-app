@@ -64,6 +64,7 @@ export default function SearchPage() {
               <option value="Italian">Italian</option>
               <option value="Mexican">Mexican</option>
               <option value="Chinese">Chinese</option>
+              <option value="German">German</option>
             </select>
           </div>
 

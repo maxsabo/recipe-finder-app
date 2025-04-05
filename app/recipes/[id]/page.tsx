@@ -1,3 +1,4 @@
+import { PageProps } from '@/.next/types/app/layout';
 import RecipeInfo from '@/app/components/RecipeInfo';
 import Image from 'next/image';
 import { Suspense } from 'react';
@@ -28,16 +29,13 @@ async function fetchRecipeDetails(id: string): Promise<RecipeDetails> {
   return res.json();
 }
 
-export default async function RecipeDetailsPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function RecipeDetailsPage({params}: PageProps) {
+  const id = (await params).id;
   let recipe: RecipeDetails | null = null;
   let error: string | null = null;
 
   try {
-    recipe = await fetchRecipeDetails(params.id);
+    recipe = await fetchRecipeDetails(id);
   } catch (err) {
     error = (err as Error).message;
   }
